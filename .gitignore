@@ -1,0 +1,21 @@
+# Ignore system files
+
+.bash_history
+
+.bashrc
+
+.profile
+
+.cache/
+
+.config/
+
+.local/
+
+.ssh/
+
+.vnc/
+
+*.log
+
+
