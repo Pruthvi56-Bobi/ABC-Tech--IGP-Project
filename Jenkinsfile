@@ -6,7 +6,9 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/Pruthvi56-Bobi/ABC-Tech--IGP-Project.git'
+                git url: 'https://github.com/Pruthvi56-Bobi/ABC-Tech--IGP-Project.git',
+            credentialsId: 'github-token',
+            branch: 'main'
             }
         }
 
