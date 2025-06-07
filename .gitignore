@@ -18,4 +18,6 @@
 
 *.log
 
+.Maven Build CI Job Logs #3.txt
+
 
