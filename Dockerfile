@@ -1,27 +1,11 @@
-# Use an official Tomcat image to run the app
+FROM tomcat:9.0-jdk11
 
-FROM tomcat:8.5-jre8
-
-
-
-# Remove default webapps to avoid conflicts
-
+# Remove default apps if you want (optional)
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-
-
-# Copy the built WAR file from the previous stage
-
-COPY --from=build /app/target/ABCtechnologies-1.0.war /usr/local/tomcat/webapps/ROOT.war
-
-
-
-# Expose Tomcat port
+# Copy your WAR file to deploy
+COPY myapp.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
-
-
-
-# Start Tomcat server
 
 CMD ["catalina.sh", "run"]
