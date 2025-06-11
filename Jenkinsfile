@@ -78,7 +78,7 @@ pipeline {
 
         stage('Deploy via Ansible') {
             steps {
-                ansible-playbook -i ansible-k8s-setup/hosts.ini ansible-k8s-setup/deploy_docker.yml -u ec2-user --become --ask-become-pass
+                sh 'ansible-playbook -i ansible-k8s-setup/hosts.ini ansible-k8s-setup/deploy_docker.yml'
             }
         }
     }
