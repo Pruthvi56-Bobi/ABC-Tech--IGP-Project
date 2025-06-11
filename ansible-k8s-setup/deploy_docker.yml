@@ -1,7 +1,7 @@
 ---
 - name: Deploy ABC App in Docker using Ansible
   hosts: k8s
-  become: false
+  become: true
 
   vars:
     image_name: mullapudipruthvi/abc-tech-app
