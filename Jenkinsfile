@@ -79,8 +79,6 @@ pipeline {
         stage('Deploy via Ansible') {
     steps {
         sh 'ansible-playbook -i ansible-k8s-setup/hosts.ini ansible-k8s-setup/deploy_docker.yml'
-    }
-}
 
             }
         }
