@@ -76,9 +76,12 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
-            steps {
-                sh "docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${IMAGE_NAME}"
+        stage('Deploy via Ansible') {
+    steps {
+        sh 'ansible-playbook -i ansible-k8s-setup/hosts.ini ansible-k8s-setup/deploy_docker.yml'
+    }
+}
+
             }
         }
     }
