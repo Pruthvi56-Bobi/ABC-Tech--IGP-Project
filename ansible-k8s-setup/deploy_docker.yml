@@ -1,0 +1,50 @@
+---
+- name: Deploy ABC App in Docker using Ansible
+  hosts: k8s
+  become: true
+
+  vars:
+    image_name: mullapudipruthvi/abc-tech-app
+    container_name: abc-tech-container
+    host_port: 9090
+    container_port: 8080
+
+  tasks:
+
+    - name: Ensure Docker is installed
+      yum:
+        name: docker
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull Docker image from DockerHub
+      docker_image:
+        name: "{{ image_name }}"
+        source: pull
+
+    - name: Stop existing container if running
+      docker_container:
+        name: "{{ container_name }}"
+        state: stopped
+      ignore_errors: yes   # ✅ move this outside the module block
+
+    - name: Remove existing container if exists
+      docker_container:
+        name: "{{ container_name }}"
+        state: absent
+      ignore_errors: yes   # ✅ same fix here
+
+
+    - name: Run the container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}"
+        ports:
+          - "{{ host_port }}:{{ container_port }}"
+        state: started
+        restart_policy: always
