@@ -83,6 +83,13 @@ pipeline {
         }
     }
 
+    stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl set image deployment/abc-tech-deployment abc-tech=$IMAGE_NAME:$BUILD_NUMBER -n $K8S_NAMESPACE'
+            }
+        }
+    }
+
     post {
         success {
             echo '✅ Build and Deployment Successful! Visit: http://<your-ec2-ip>:9090'
