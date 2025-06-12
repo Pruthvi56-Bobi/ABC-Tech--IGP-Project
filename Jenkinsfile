@@ -11,6 +11,7 @@ pipeline {
         HOST_PORT = '9090'
         CONTAINER_PORT = '8080'
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
+        K8S_NAMESPACE = 'abc-tech'
     }
 
     stages {
@@ -78,14 +79,13 @@ pipeline {
 
         stage('Deploy via Ansible') {
             steps {
-                sh 'ansible-playbook -i ansible-k8s-setup/hosts.ini ansible-k8s-setup/deploy_docker.yml'
+                sh 'ansible-playbook -i ansible-k8s-setup/hosts.ini ansible-k8s-setup/deploy_docker.yml -u ec2-user --become'
             }
         }
-    }
 
-    stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl set image deployment/abc-tech-deployment abc-tech=$IMAGE_NAME:$BUILD_NUMBER -n $K8S_NAMESPACE'
+                sh 'kubectl set image deployment/abc-tech-deployment abc-tech=${IMAGE_NAME}:${BUILD_NUMBER} -n ${K8S_NAMESPACE}'
             }
         }
     }
