@@ -12,6 +12,8 @@ pipeline {
         CONTAINER_PORT = '8080'
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
         K8S_NAMESPACE = 'abc-tech'
+        // ADDED: Explicitly set KUBECONFIG for Jenkins user to find Minikube config
+        KUBECONFIG = '/home/ec2-user/.kube/config' // IMPORTANT: This path assumes Minikube was started by ec2-user
     }
 
     stages {
@@ -85,6 +87,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
+                // KUBECONFIG is now set globally via the environment block
                 sh 'kubectl set image deployment/abc-tech-deployment abc-tech=${IMAGE_NAME}:${BUILD_NUMBER} -n ${K8S_NAMESPACE}'
             }
         }
